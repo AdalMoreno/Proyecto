@@ -1,0 +1,130 @@
+/* Fuentes personalizadas */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Estilos base */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+}
+
+
+/* Hero section */
+
+.hero-bg {
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Transiciones suaves */
+
+a,
+button {
+    transition: all 0.3s ease;
+}
+
+
+/* Estilos para formularios */
+
+input,
+select,
+textarea {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+
+/* Tablas */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    text-align: left;
+    background-color: #f8fafc;
+}
+
+tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+
+/* Modal */
+
+.modal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Notas médicas */
+
+.note-card {
+    border-left: 4px solid #3b82f6;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none;
+    }
+    .mobile-menu {
+        display: block;
+    }
+}
+
+
+/* Animaciones */
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+
+/* Personalización de Tailwind */
+
+@layer components {
+    .btn-primary {
+        @apply bg-blue-500 text-white font-medium rounded-lg px-4 py-2 hover: bg-blue-600 focus: outline-none focus: ring-2 focus: ring-blue-500 focus: ring-offset-2;
+    }
+    .btn-danger {
+        @apply bg-red-500 text-white font-medium rounded-lg px-4 py-2 hover: bg-red-600 focus: outline-none focus: ring-2 focus: ring-red-500 focus: ring-offset-2;
+    }
+    .card {
+        @apply bg-white rounded-lg shadow-md p-6;
+    }
+    .form-input {
+        @apply w-full px-3 py-2 border border-gray-300 rounded-md focus: outline-none focus: ring-2 focus: ring-blue-500;
+    }
+}

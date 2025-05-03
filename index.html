@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="form sign_in">
+                <h3>Iniciar Sesión</h3>
+                <span> Usa tu cuenta</span>
+
+                <form action="login.php" method="POST" id="form_input">
+                    <div class="type">
+                        <input type="email" placeholder="Correo Electrónico" name="email" id="email" required>
+                    </div>
+                    <div class="type password-container">
+                        <input type="password" placeholder="Contraseña" name="contrasena" id="loginPassword" required>
+                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    </div>
+
+                    <div class="forgot">
+                        <span>¿Olvidaste tu contraseña?</span>
+                    </div>
+
+                    <div class="recaptcha-container">
+                        <div class="g-recaptcha" data-sitekey="6Lcycw0rAAAAANHlAwHOasfIVqa8vOzMUO_JBmMA"></div>
+                    </div>
+
+                    <noscript>
+                        <div style="width: 302px; height: 422px;">
+                            <div style="width: 302px; height: 422px; position: relative;">
+                                <div style="width: 302px; height: 422px; position: absolute;">
+                                    <iframe
+                                        src="https://www.google.com/recaptcha/api/fallback?k=6Lcycw0rAAAAANHlAwHOasfIVqa8vOzMUO_JBmMA"
+                                        frameborder="0" scrolling="no"
+                                        style="width: 302px; height:422px; border-style: none;">
+                                    </iframe>
+                                </div>
+                            </div>
+                            <div style="border-bottom: 1px solid #ccc; position: relative; width: 300px; height: 100px; margin: auto;">
+                                <textarea id="g-recaptcha-response" name="g-recaptcha-response"
+                                    class="g-recaptcha-response"
+                                    style="width: 250px; height: 80px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" >
+                                </textarea>
+                            </div>
+                        </div>
+                    </noscript>
+
+                    <button class="btn bkg">Iniciar Sesión</button>
+
+                </form>
+            </div>
+
+            <div class="form sign_up">
+                <h3>Registrarse</h3>
+                <span> Usa tu correo electrónico para registrarte</span>
+
+                <form action="register.php" method="POST" id="form_input1">
+                    <div class="type">
+                        <input type="text" name="nombre" placeholder="Nombre" id="name" required>
+                    </div>
+                    <div class="type">
+                        <input type="email" name="email" placeholder="Correo Electrónico" id="email1" required>
+                    </div>
+                    <div class="role-container">
+                        <select name="role" id="role" required>
+                            <option value="" disabled selected>Selecciona un rol</option>
+                            <option value="Paciente">Paciente</option>
+                            <option value="Doctor">Doctor</option>
+                        </select>
+                    </div>
+
+                    <div id="extraFields"></div>
+
+                    <div class="type password-container">
+                        <input type="password" placeholder="Contraseña" name="contrasena" id="registerPassword" required>
+
+                        <i class="bi bi-eye-slash" id="toggleRegisterPassword"></i>
+
+                    </div>
+
+                    <div class="strength-bar-container">
+                        <div id="strengthBar" class="strength-bar"></div>
+                    </div>
+                    <div id="strengthMessage" class="strength-message"></div>
+
+                    <button class="btn bkg" type="submit">Registrarse</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="overlay">
+            <div class="page page_signIn">
+                <h3> ¡Bienvenido! </h3>
+                <p>Para continuar con nosotros, por favor inicia sesión con tu información personal</p>
+
+                <button class="btn btnSign-in">Registrarse <i class="bi bi-arrow-right"></i></button>
+            </div>
+
+            <div class="page page_signUp">
+                <h3>¡Hola amigo!</h3>
+                <p>Introduce tus detalles personales y comienza tu cita con nosotros</p>
+
+                <button class="btn btnSign-up">
+                    <i class="bi bi-arrow-left"></i> Iniciar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Manejo del formulario de login con alertas
+        document.getElementById("form_input").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch("login.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Redirección directa sin alerta en caso de éxito
+                        window.location.href = data.redirect;
+                    } else {
+                        // Mostrar mensaje de error con alerta
+                        alert(data.message);
+                        // Resetear reCAPTCHA si hay error
+                        if (typeof grecaptcha !== 'undefined') {
+                            grecaptcha.reset();
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error en el sistema. Por favor intenta más tarde.');
+                });
+        });
+        document.getElementById("form_input1").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar recarga por defecto
+
+            const formData = new FormData(this);
+
+            fetch("register.php", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                        // Manejar errores específicos de PostgreSQL
+                        if (data.message.includes('unique constraint')) {
+                            alert("El email ya está registrado");
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Hubo un error al registrar el usuario.');
+                });
+        });
+        document.addEventListener("change", function(event) {
+            if (event.target.name === "fecha_nacimiento") {
+                const fechaNacimiento = new Date(event.target.value);
+                const fechaActual = new Date();
+
+                if (fechaNacimiento > fechaActual) {
+                    alert("La fecha de nacimiento no puede ser posterior a la actual.");
+                    event.target.value = "";
+                }
+
+                // Formatear fecha para PostgreSQL (YYYY-MM-DD)
+                if (event.target.value) {
+                    const fecha = new Date(event.target.value);
+                    const formattedDate = fecha.toISOString().split('T')[0];
+                    event.target.value = formattedDate;
+                }
+            }
+        });
+
+        // Resto del código (manejo de campos dinámicos y reinicio de formularios)
+        document.getElementById("role").addEventListener("change", function() {
+            let extraFields = document.getElementById("extraFields");
+            extraFields.innerHTML = "";
+
+            if (this.value === "Paciente") {
+                extraFields.innerHTML = `
+                    <div class="type">
+                        <input type="text" name="fecha_nacimiento" placeholder="Fecha de Nacimiento"
+                            onfocus="(this.type='date')" onblur="(this.type='text')" required>
+                    </div>
+                    <div class="type">
+                        <input type="text" name="telefono" placeholder="Teléfono" maxlength="20">
+                    </div>
+                    <div class="type">
+                        <input type="text" name="direccion" placeholder="Dirección" maxlength="255">
+                    </div>
+                `;
+            } else if (this.value === "Doctor") {
+                extraFields.innerHTML = `
+                    <div class="type">
+                        <input type="text" name="especialidad" placeholder="Especialidad" required maxlength="100">
+                    </div>
+                    <div class="type">
+                        <input type="text" name="telefono" placeholder="Teléfono" maxlength="20">
+                    </div>
+                    <div class="type">
+                        <input type="text" name="direccion" placeholder="Dirección" maxlength="255">
+                    </div>
+                `;
+            }
+            extraFields.style.display = "block";
+        });
+
+        // Resetear el formulario de registro y eliminar el mensaje de validación
+        document.querySelector(".btnSign-up").addEventListener("click", function() {
+            // Eliminar el mensaje de validación de la contraseña si está visible
+            const passwordValidationMessage = document.getElementById("passwordValidationMessage");
+            if (passwordValidationMessage) {
+                passwordValidationMessage.textContent = ""; // Eliminar el texto
+            }
+
+            // Resto del código para resetear el formulario de registro
+            document.getElementById("form_input1").reset();
+            document.getElementById("extraFields").innerHTML = "";
+            document.getElementById("role").selectedIndex = 0;
+            document.getElementById("name").value = "";
+            document.getElementById("email1").value = "";
+            document.getElementById("registerPassword").value = "";
+            const toggleRegisterPassword = document.getElementById("toggleRegisterPassword");
+            toggleRegisterPassword.style.display = "none";
+            document.getElementById("registerPassword").type = "password";
+            toggleRegisterPassword.classList.remove("bi-eye");
+            toggleRegisterPassword.classList.add("bi-eye-slash");
+        });
+        document.querySelector(".btnSign-in").addEventListener("click", function() {
+            document.getElementById("form_input").reset();
+            document.getElementById("extraFields").innerHTML = "";
+            document.getElementById("role").selectedIndex = 0;
+            document.getElementById("loginPassword").value = "";
+            const togglePassword = document.getElementById("togglePassword");
+            togglePassword.style.display = "none";
+            document.getElementById("loginPassword").type = "password";
+            toggleRegisterPassword.classList.remove("bi-eye");
+            toggleRegisterPassword.classList.add("bi-eye-slash");
+            // Restablecer la barra de fortaleza y el mensaje de validación
+            const strengthBar = document.getElementById("strengthBar");
+            const strengthMessage = document.getElementById("strengthMessage");
+            if (strengthBar) {
+                strengthBar.style.display = "none"; // Ocultar la barra
+                strengthBar.className = "strength-bar"; // Restablecer la clase
+            }
+            if (strengthMessage) {
+                strengthMessage.style.display = "none"; // Ocultar el mensaje
+                strengthMessage.textContent = ""; // Limpiar el texto
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

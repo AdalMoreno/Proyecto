@@ -1,0 +1,615 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: url('image/cita.jpeg') no-repeat center center fixed;
+    font-family: 'Mulish', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.container {
+    width: 60%;
+    display: flex;
+    height: 650px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.strength-bar-container {
+    width: 100%;
+    height: 5px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-top: -25px;
+    margin-bottom: 10px;
+    /* Ajusta el valor según necesites */
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    /* Inicialmente sin ancho */
+    border-radius: 5px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+
+/* Colores para la barra de seguridad */
+
+.strength-bar.red {
+    background-color: red;
+    width: 33%;
+    /* Ancho para el estado débil */
+}
+
+.strength-bar.orange {
+    background-color: orange;
+    width: 66%;
+    /* Ancho para el estado aceptable */
+}
+
+.strength-bar.green {
+    background-color: green;
+    width: 100%;
+    /* Ancho para el estado seguro */
+}
+
+.strength-message {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    display: none;
+    /* Ocultar inicialmente */
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 30px;
+    /* Espacio para el icono */
+    padding-left: 10px;
+    /* Espacio para la izquierda */
+}
+
+.password-container i {
+    position: absolute;
+    right: 10px;
+    /* Coloca el icono a la derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+    /* Opcional: color del icono */
+}
+
+#passwordStrengthMessage {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+/* Inicialmente ocultamos los iconos de ojo */
+
+#togglePassword,
+#toggleRegisterPassword {
+    display: none;
+}
+
+@keyframes Show {
+    0%,
+    49.999% {
+        opacity: 0;
+        z-index: 1;
+    }
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+@keyframes Hidden {
+    0%,
+    49.999% {
+        opacity: 1;
+        z-index: 5;
+    }
+    100% {
+        opacity: 0;
+        z-index: 1;
+    }
+}
+
+.container .box {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 50%;
+    transition: all 0.8s;
+    transform: translateX(0);
+    background-color: #fff;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.container.active .box {
+    transform: translateX(100%);
+}
+
+.container .box .form {
+    position: absolute;
+    height: 100%;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.container .box .form.sign_up {
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    z-index: 1;
+    opacity: 0;
+    transform: translateX(100%);
+    /* Inicialmente fuera de la pantalla */
+    background-color: #a3c5cf;
+}
+
+.container .box .form.sign_in {
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    opacity: 1;
+    z-index: 5;
+    transform: translateX(0);
+    /* Visible en su posición inicial */
+    background-color: #a3c5cf;
+}
+
+.container.active .box .form.sign_in {
+    opacity: 0;
+    z-index: 1;
+    transform: translateX(-100%);
+    /* Se mueve hacia la izquierda */
+}
+
+.container.active .box .form.sign_up {
+    opacity: 1;
+    z-index: 5;
+    transform: translateX(0);
+    /* Se mueve a su posición visible */
+}
+
+
+/* Estilizar el contenedor del select "Rol" */
+
+.role-container {
+    position: relative;
+    width: 330px;
+    height: 48px;
+    background-color: #EEEDEF;
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-radius: 5px;
+}
+
+
+/* Estilo del select para que se vea como los otros inputs */
+
+#role {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #A9A8A9;
+    /* Color gris como placeholder */
+    font-family: 'Mulish', sans-serif;
+    cursor: pointer;
+    appearance: none;
+    /* Quitar el diseño por defecto del navegador */
+}
+
+
+/* Flecha personalizada SOLO para "Rol" */
+
+.role-container::after {
+    content: "▼";
+    font-size: 14px;
+    position: absolute;
+    right: 15px;
+    color: #555;
+    pointer-events: none;
+}
+
+
+/* Cuando se selecciona una opción, el texto cambia a negro */
+
+#role:focus,
+#role:valid {
+    color: black;
+}
+
+#extraFieldsContainer {
+    max-height: 200px;
+    /* Limita la altura para activar el scroll */
+    overflow-y: auto;
+    /* Activa el scroll solo cuando haya muchos campos */
+    width: 100%;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: none;
+    /* Oculto por defecto */
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* Personalizar scrollbar */
+
+#extraFieldsContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#extraFieldsContainer::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#extraFieldsContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/**/
+
+.container .box .form.sign_up h3 {
+    position: relative;
+    /* Asegura que se mantenga en su lugar */
+    margin-top: 10px;
+    /* Espaciado superior para evitar que se pegue */
+    text-align: center;
+    /* Asegura que se alinee bien */
+    font-size: 28px;
+    /* Ajusta el tamaño si es necesario */
+}
+
+.container .box .form.sign_up {
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.container .box .form.sign_up {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    /* Usa toda la altura */
+    overflow: hidden;
+    /* Evita que el título se mueva */
+}
+
+.container .box .form.sign_up form {
+    max-height: 100%;
+    overflow-y: auto;
+    /* Activa el scroll solo en los campos */
+    padding: 10px 80px;
+    width: 100%;
+}
+
+.recaptcha-container {
+    margin-left: 10px;
+    /* Mueve hacia la derecha */
+    margin-bottom: 15px;
+    /* Espacio hacia el botón */
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+/* Agregar un scrollbar visible */
+
+.container .box .form.sign_up::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container .box .form.sign_up::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.container .box .form.sign_up::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/**/
+
+.container .overlay {
+    display: flex;
+    height: 100%;
+    width: 50%;
+    transition: all 0.8s;
+    transform: translateX(0);
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+    overflow: hidden;
+    z-index: 5;
+    opacity: 1;
+}
+
+.container.active .overlay {
+    transform: translateX(-100%);
+}
+
+.container .overlay .page {
+    height: 100%;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+.container.active .overlay .page.page_signIn {
+    opacity: 0;
+    margin-left: -100%;
+}
+
+.container.active .overlay .page.page_signUp {
+    margin-left: 0%;
+}
+
+.overlay .page h3 {
+    color: black;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.overlay .page p {
+    color: black;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+.btn {
+    display: inline-block;
+    outline: none;
+    color: black;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 550;
+    background-color: transparent;
+    padding: 12px 45px;
+    border-radius: 22px;
+    border: 1.5px solid black;
+    cursor: pointer;
+}
+
+.form h3 {
+    color: #222;
+    font-size: 40px;
+}
+
+.form span {
+    color: #3a3838;
+}
+
+#form_input .type {
+    width: 330px;
+    height: 48px;
+    background-color: #EEEDEF;
+    margin: 30px 0;
+}
+
+#form_input .type input {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#form_input .type input::placeholder {
+    color: #A9A8A9;
+}
+
+#form_input .forgot {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+#form_input1 .type {
+    width: 330px;
+    height: 48px;
+    background-color: #EEEDEF;
+    margin: 30px 0;
+}
+
+#form_input1 .type input {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#form_input1 .type input::placeholder {
+    color: #A9A8A9;
+}
+
+.bkg {
+    background-color: white;
+}
+
+
+/* Media queries para responsive design */
+
+@media (max-width: 1200px) {
+    .container {
+        width: 80%;
+    }
+    /* Ocultar/mostrar formularios en móvil */
+    .container .box .form.sign_in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .container .box .form.sign_up {
+        opacity: 0;
+        transform: translateX(100%);
+        margin-left: -20px;
+    }
+    .container.active .box .form.sign_in {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    .container.active .box .form.sign_up {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+    .container {
+        width: 90%;
+    }
+    #form_input .type {
+        width: 280px;
+    }
+    /* Ocultar/mostrar formularios en móvil */
+    .container .box .form.sign_in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .container .box .form.sign_up {
+        opacity: 0;
+        transform: translateX(100%);
+        margin-left: -60px;
+    }
+    .container.active .box .form.sign_in {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    .container.active .box .form.sign_up {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        width: 90%;
+    }
+    .container .box,
+    .container .overlay {
+        width: 100%;
+        height: auto;
+        min-height: 500px;
+    }
+    .container .box {
+        order: 2;
+    }
+    .container .overlay {
+        order: 1;
+    }
+    .container.active .box {
+        transform: translateX(0);
+    }
+    .container.active .overlay {
+        transform: translateX(0);
+    }
+    /* Ajustes para el formulario en móvil */
+    .form {
+        padding: 40px 20px;
+    }
+    #form_input .type {
+        width: 100%;
+        max-width: 330px;
+    }
+    /* Ocultar/mostrar formularios en móvil */
+    .container .box .form.sign_in {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .container .box .form.sign_up {
+        opacity: 0;
+        transform: translateX(100%);
+        margin-left: -20px;
+    }
+    .container.active .box .form.sign_in {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    .container.active .box .form.sign_up {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    /* Ajustes para las páginas del overlay en móvil */
+    .container .overlay .page.page_signIn {
+        opacity: 1;
+        transform: translateX(0);
+        margin-top: 150px;
+    }
+    .container .overlay .page.page_signUp {
+        opacity: 0;
+        transform: translateX(100%);
+        margin-top: 150px;
+    }
+    .container.active .overlay .page.page_signIn {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    .container.active .overlay .page.page_signUp {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        width: 95%;
+    }
+    .form h3,
+    .overlay .page h3 {
+        font-size: 32px;
+    }
+    .form span,
+    .overlay .page p {
+        font-size: 14px;
+    }
+    .btn {
+        padding: 10px 35px;
+        font-size: 14px;
+    }
+    #form_input .type {
+        margin: 20px 0;
+    }
+}

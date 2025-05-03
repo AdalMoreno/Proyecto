@@ -1,0 +1,177 @@
+/* Estilos personalizados para el panel del paciente */
+
+body {
+    color: #333;
+}
+
+
+/* Estilos para las tarjetas de citas */
+
+.cita-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid #3b82f6;
+}
+
+.cita-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Estilos para los botones */
+
+.btn-cancelar {
+    transition: all 0.2s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #dc2626;
+}
+
+
+/* Estilos para la tabla de historial */
+
+#historialTable tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+#historialTable tr:hover {
+    background-color: #f1f5f9;
+}
+
+
+/* Animación para notificaciones */
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+#notificaciones {
+    animation: slideIn 0.3s ease-out;
+}
+
+
+/* Responsividad adicional */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: static;
+    }
+    .main-content {
+        padding: 1rem;
+    }
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+
+/* Estilos para el formulario */
+
+#agendarForm input,
+#agendarForm select,
+#agendarForm textarea {
+    border: 1px solid #e2e8f0;
+}
+
+#agendarForm input:focus,
+#agendarForm select:focus,
+#agendarForm textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+
+/* Estilos para el estado de las citas */
+
+.estado-pendiente {
+    color: #d97706;
+}
+
+.estado-confirmada {
+    color: #059669;
+}
+
+.estado-cancelada {
+    color: #dc2626;
+}
+
+
+/* Estilos para la foto de perfil editable */
+
+#photoModal {
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+#photoModal img {
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
+}
+
+#editPhotoBtn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#photoUpload {
+    display: none;
+}
+
+
+/* Estilos para los botones del modal */
+
+#photoModal button {
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+#photoModal button i {
+    margin-right: 0.5rem;
+}
+
+#savePhotoBtn.hidden {
+    display: none;
+}
+
+
+/* Efectos hover */
+
+#patientPhoto:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+#changePhotoBtn:hover,
+#savePhotoBtn:hover {
+    transform: translateY(-1px);
+}
+
+
+/* Ajustes para móviles */
+
+@media (max-width: 640px) {
+    #photoModal {
+        padding: 1rem;
+    }
+    #photoModal img {
+        max-height: 50vh;
+    }
+    #photoModal button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
